@@ -886,6 +886,19 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
         } catch (SQLException ex) {
             Logger.getLogger(QuanLyThucDonJPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
+        for (String tenNL: nguyenLieuDaChon)
+        {
+            String sqlStatementMaNguyenLieu = "select MANL from KHONGUYENLIEU where TENNL = '" + tenNL +"'";
+            ResultSet maNguyenLieuResultSet = ExcuteSQLStatement.ExcuteSQLQuery(sqlStatementMaNguyenLieu);
+            try {
+                while (maNguyenLieuResultSet.next())
+                {
+                    String sqlStatementUpdateCheBien = "insert into CHEBIEN values ('" + maMonAn + "', '" + maNguyenLieuResultSet.getString("MANL");
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(QuanLyThucDonJPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         setThemMonAnJDialogVeTrangThaiBanDau();
     }//GEN-LAST:event_confirmThemMonAn_jButtonActionPerformed
 
