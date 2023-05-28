@@ -92,7 +92,6 @@ public final class DishesButton extends JButton {
         setTenLoaiMonAn(suaLoaiMonAn_jComboBox.getSelectedItem());
         setLink_img(new_link_img);
         setDonGia(Integer.parseInt(suaDonGia_jTextField.getText()));
-        setNguyenLieu(nguyenLieuTemp);
         try {
             ImageIcon dishIcon = new ImageIcon(getClass().getResource(this.link_img));
             Image dishImage = dishIcon.getImage().getScaledInstance(200, 100, Image.SCALE_SMOOTH);
@@ -104,6 +103,7 @@ public final class DishesButton extends JButton {
             ImageIcon scaledDishIcon = new ImageIcon(dishImage);
             setIcon(scaledDishIcon);
         }
+        suaNguyenLieuMonAn();
         //Doan nay can xem lai de xem vi tri xuat hien
         for (JPanel loaiMonAnJPanel: loaiMonAnJPanels)
         {
@@ -111,23 +111,14 @@ public final class DishesButton extends JButton {
         }
     }
 
-    public void SuaNguyenLieuMonAn()
+    public void suaNguyenLieuMonAn()
     {
         if (themOrXoaNguyenLieu != 0) {
-            boolean flag_trung = false;
             String tenNguyenLieuMoiThem = suaNguyenLieu_jList.getSelectedValue();
-            for (String str : nguyenLieu) {
-                if (str.equals(tenNguyenLieuMoiThem)) {
-                    flag_trung = true;
-                    break;
-                }
-            }
-            if (themOrXoaNguyenLieu == 2) /*Bam nut them*/ {
-                if (flag_trung == false) {
-                    nguyenLieuTemp.add(tenNguyenLieuMoiThem);
-                }
-            } else if (themOrXoaNguyenLieu == 1) /*Bam nut xoa*/{
-                if (flag_trung == true) nguyenLieuTemp.remove(tenNguyenLieuMoiThem);
+            if (!suaShowNguyenLieu_jTextArea.getText().contains(tenNguyenLieuMoiThem))
+            {
+                suaShowNguyenLieu_jTextArea.setText(suaShowNguyenLieu_jTextArea.getText()+", " + tenNguyenLieuMoiThem);
+                nguyenLieu.add(tenNguyenLieuMoiThem);
             }
         }
     }

@@ -5,6 +5,8 @@
 package view;
 
 import connection.ExcuteSQLStatement;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.HeadlessException;
 import java.io.File;
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import model.WrapLayout;
 
 /**
  *
@@ -589,6 +592,8 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
+        quanLyThucDon_jPanel.setLayout(new WrapLayout(FlowLayout.LEFT));
+        quanLyThucDon_jPanel.setSize(new Dimension(630, 1));
         quanLyThucDon_jPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(250, 300, 250, 300));
         quanLyThucDon_jPanel.setPreferredSize(new java.awt.Dimension(900, 600));
         quanLyThucDon_jPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -850,6 +855,7 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
 
     private void confirmThemMonAn_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmThemMonAn_jButtonActionPerformed
         // TODO add your handling code here:
+        boolean success = true;
         String link_img = themPathAnhMonAn_jTextField.getText();
         String tenMon = themTenMonAn_jTextField.getText();
         Object tenLoaiMonAn = themLoaiMonAn_jComboBox.getSelectedItem();
@@ -860,11 +866,8 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
         } catch (NumberFormatException e) {
             donGia = 0;
         }
-        DishesButton newDishesButton = new DishesButton(link_img, tenMon, tenLoaiMonAn, maMonAn, donGia, nguyenLieuDaChon);
-        for (JPanel loaiMonAnJPanel : loaiMonAnJPanels) {
-            if (newDishesButton.getTenLoaiMonAn().equals(loaiMonAnJPanel.getName())) {
-                loaiMonAnJPanel.add(newDishesButton);
-            }
+        if (maMonAn.equals("")) {
+            success = false;
         }
         themMonAn_jDialog.setVisible(false);
         String sql = "SELECT MALMA FROM LOAIMONAN where TENLMA ='" + tenLoaiMonAn.toString() + "'";
@@ -874,30 +877,33 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
             while (loaiMonAnResultSet.next()) {
                 maLoaiMonAn = loaiMonAnResultSet.getString("MALMA");
                 String sqlStatementUpdateMonAn = "insert into MONAN values('" + maMonAn + "','" + tenMon + "','" + link_img + "','" + maLoaiMonAn + "'," + donGia + ")";
-                System.out.println(sqlStatementUpdateMonAn);
                 ExcuteSQLStatement.ExcuteSQLUpdate(sqlStatementUpdateMonAn);
-                confirmThemMonAn_jOptionPane.showMessageDialog(quanLyThucDon_jPanel, "Them mon an thanh cong!");
-                ResultSet test = ExcuteSQLStatement.ExcuteSQLQuery("select * from MONAN");
-                while(test.next())
-                {
-                    System.out.println(test.getString("TENMON"));
-                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(QuanLyThucDonJPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        for (String tenNL: nguyenLieuDaChon)
-        {
-            String sqlStatementMaNguyenLieu = "select MANL from KHONGUYENLIEU where TENNL = '" + tenNL +"'";
+        for (String tenNL : nguyenLieuDaChon) {
+            String sqlStatementMaNguyenLieu = "select MANL from KHONGUYENLIEU where TENNL = '" + tenNL + "'";
             ResultSet maNguyenLieuResultSet = ExcuteSQLStatement.ExcuteSQLQuery(sqlStatementMaNguyenLieu);
             try {
-                while (maNguyenLieuResultSet.next())
-                {
+                while (maNguyenLieuResultSet.next()) {
                     String sqlStatementUpdateCheBien = "insert into CHEBIEN values ('" + maMonAn + "', '" + maNguyenLieuResultSet.getString("MANL");
+                    ExcuteSQLStatement.ExcuteSQLUpdate(sqlStatementUpdateCheBien);
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(QuanLyThucDonJPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+        if (success == true) {
+            DishesButton newDishesButton = new DishesButton(link_img, tenMon, tenLoaiMonAn, maMonAn, donGia, nguyenLieuDaChon);
+            for (JPanel loaiMonAnJPanel : loaiMonAnJPanels) {
+                if (newDishesButton.getTenLoaiMonAn().equals(loaiMonAnJPanel.getName())) {
+                    loaiMonAnJPanel.add(newDishesButton);
+                }
+            }
+            confirmThemMonAn_jOptionPane.showMessageDialog(quanLyThucDon_jPanel, "Them mon an thanh cong!");
+        } else {
+            confirmThemMonAn_jOptionPane.showOptionDialog(quanLyThucDon_jPanel, "Thêm món ăn không thành công vì chưa có mã món ăn!", "Error", -1, 0, null, null, null);
         }
         setThemMonAnJDialogVeTrangThaiBanDau();
     }//GEN-LAST:event_confirmThemMonAn_jButtonActionPerformed
@@ -912,7 +918,6 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
         File anhMonAn = themMonAn_jFileChooser.getSelectedFile();
         String link_image = anhMonAn.getAbsolutePath();
         themPathAnhMonAn_jTextField.setText(link_image);
-
     }//GEN-LAST:event_themAnhMonAnTuFile_jButtonActionPerformed
 
     private void confirmSuaMonAn_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmSuaMonAn_jButtonActionPerformed
@@ -953,14 +958,16 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
 
     private void confirmThemNguyenLieu_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmThemNguyenLieu_jButtonActionPerformed
         // TODO add your handling code here:
-        if (!themShowNguyenLieuDaChon_jTextArea.getText().contains(themNguyenLieu_jList.getSelectedValue()))
-        {
-            if (themShowNguyenLieuDaChon_jTextArea.getText().equals(""))
-            themShowNguyenLieuDaChon_jTextArea.setText(themNguyenLieu_jList.getSelectedValue());
-            else themShowNguyenLieuDaChon_jTextArea.setText(themShowNguyenLieuDaChon_jTextArea.getText() + ", " + themNguyenLieu_jList.getSelectedValue() );
+        if (!themShowNguyenLieuDaChon_jTextArea.getText().contains(themNguyenLieu_jList.getSelectedValue())) {
+            if (themShowNguyenLieuDaChon_jTextArea.getText().equals("")) {
+                themShowNguyenLieuDaChon_jTextArea.setText(themNguyenLieu_jList.getSelectedValue());
+
+            } else {
+                themShowNguyenLieuDaChon_jTextArea.setText(themShowNguyenLieuDaChon_jTextArea.getText() + ", " + themNguyenLieu_jList.getSelectedValue());
+            }
+            nguyenLieuDaChon.add(themNguyenLieu_jList.getSelectedValue());
         }
-        nguyenLieuDaChon.add(themNguyenLieu_jList.getSelectedValue());
-        
+        System.out.println(nguyenLieuDaChon);
     }//GEN-LAST:event_confirmThemNguyenLieu_jButtonActionPerformed
 
     private void confirmSuaNguyenLieu_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmSuaNguyenLieu_jButtonActionPerformed
