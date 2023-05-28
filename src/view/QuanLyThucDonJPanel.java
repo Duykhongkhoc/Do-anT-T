@@ -344,6 +344,11 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
         });
 
         confirmXoaNguyenLieu_jButton.setText("Xóa");
+        confirmXoaNguyenLieu_jButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmXoaNguyenLieu_jButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout xoa_suaMonAn_jDialogLayout = new javax.swing.GroupLayout(xoa_suaMonAn_jDialog.getContentPane());
         xoa_suaMonAn_jDialog.getContentPane().setLayout(xoa_suaMonAn_jDialogLayout);
@@ -683,10 +688,6 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void setMaMonAnTang() {
-
-    }
-
     public void showMonAnTuDataBase() {
         try {
 
@@ -729,7 +730,7 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
                 String tenMon = monAnResultSet.getString("TENMON");
                 int donGia = monAnResultSet.getInt("DONGIA");
                 //Lay ma loai mon an (de lay ten mon an)
-                String maLoaiMonAn = monAnResultSet.getString("MALOAIMONAN");
+                String maLoaiMonAn = monAnResultSet.getString("MALMA");
                 String sqlStatement1 = "select TENLMA from LOAIMONAN where MALMA = '" + maLoaiMonAn + "'";
                 ResultSet tenMonAnResultSet = ExcuteSQLStatement.ExcuteSQLQuery(sqlStatement1);
                 while (tenMonAnResultSet.next()) {
@@ -829,7 +830,9 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
         try {
             String sql = "SELECT TO_NUMBER(SUBSTR(MAMON, 3))+1 LAST_MAMA FROM MONAN ORDER BY TO_NUMBER(SUBSTR( MAMON, 3 )) DESC";
             ResultSet numberMaMonAn = ExcuteSQLStatement.ExcuteSQLQuery(sql);
-            if (numberMaMonAn.next()) maMonAn = "MA" + numberMaMonAn.getInt("LAST_MAMA");
+            if (numberMaMonAn.next()) {
+                maMonAn = "MA" + numberMaMonAn.getInt("LAST_MAMA");
+            }
             themMaMonAn_jTextField.setText(maMonAn);
         } catch (SQLException | HeadlessException ex) {
         }
@@ -877,6 +880,7 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
             success = false;
         }
         themMonAn_jDialog.setVisible(false);
+        //Them vao co so du lieu
         String sql = "SELECT MALMA FROM LOAIMONAN where TENLMA ='" + tenLoaiMonAn.toString() + "'";
         ResultSet loaiMonAnResultSet = ExcuteSQLStatement.ExcuteSQLQuery(sql);
         String maLoaiMonAn;
@@ -894,7 +898,7 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
             ResultSet maNguyenLieuResultSet = ExcuteSQLStatement.ExcuteSQLQuery(sqlStatementMaNguyenLieu);
             try {
                 while (maNguyenLieuResultSet.next()) {
-                    String sqlStatementUpdateCheBien = "insert into CHEBIEN values ('" + maMonAn + "', '" + maNguyenLieuResultSet.getString("MANL")+"')";
+                    String sqlStatementUpdateCheBien = "insert into CHEBIEN values ('" + maMonAn + "', '" + maNguyenLieuResultSet.getString("MANL") + "')";
                     ExcuteSQLStatement.ExcuteSQLUpdate(sqlStatementUpdateCheBien);
                 }
             } catch (SQLException ex) {
@@ -972,6 +976,14 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_confirmThemNguyenLieu_jButtonActionPerformed
 
     private void confirmSuaNguyenLieu_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmSuaNguyenLieu_jButtonActionPerformed
+        String[] temp = suaShowNguyenLieu_jTextArea.getText().split("[\\n]");
+        nguyenLieuSua = new ArrayList<>(Arrays.asList(temp));
+        for (String nguyenlieu : nguyenLieuSua) {
+            if (!suaNguyenLieu_jList.getSelectedValue().equals(nguyenlieu)) {
+                nguyenLieuSua.add(suaNguyenLieu_jList.getSelectedValue());
+                break;
+            }
+        }
         trangThaiChonXoaOrSua = 2;
     }//GEN-LAST:event_confirmSuaNguyenLieu_jButtonActionPerformed
 
@@ -1036,6 +1048,11 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
         suaLoaiMonAn_jDialog.setVisible(false);
 
     }//GEN-LAST:event_cancelSuaLoaiMonAn_jButtonActionPerformed
+
+    private void confirmXoaNguyenLieu_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmXoaNguyenLieu_jButtonActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_confirmXoaNguyenLieu_jButtonActionPerformed
     private void setSuaLoaiMonAnDialogVeTrangThaiBanDau() {
         suaLoaiMonAn_jComboBox.setSelectedIndex(0);
         tenMoiLoaiMonAn_jTextField.setText("");
