@@ -20,6 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import model.WrapLayout;
 
 /**
@@ -278,6 +279,9 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
                     .addComponent(confirmThemMonAn_jButton))
                 .addGap(15, 15, 15))
         );
+
+        themMonAn_jFileChooser.addChoosableFileFilter(new FileNameExtensionFilter("*.png", "png"));
+        themMonAn_jFileChooser.addChoosableFileFilter(new FileNameExtensionFilter("*.jpg", "jpg"));
 
         xoa_suaMonAn_jDialog.setTitle("Xóa, sửa món ăn");
         xoa_suaMonAn_jDialog.setModal(true);
@@ -826,10 +830,8 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
             String sql = "SELECT TO_NUMBER(SUBSTR(MAMON, 3))+1 LAST_MAMA FROM MONAN ORDER BY TO_NUMBER(SUBSTR( MAMON, 3 )) DESC";
             ResultSet numberMaMonAn = ExcuteSQLStatement.ExcuteSQLQuery(sql);
             if (numberMaMonAn.next()) maMonAn = "MA" + numberMaMonAn.getInt("LAST_MAMA");
-            System.out.println(numberMaMonAn.getInt("LAST_MAMA"));
             themMaMonAn_jTextField.setText(maMonAn);
         } catch (SQLException | HeadlessException ex) {
-            System.out.println("the error is " + ex);
         }
         themMonAn_jDialog.pack();
         themMonAn_jDialog.setLocationRelativeTo(null);
@@ -892,7 +894,7 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
             ResultSet maNguyenLieuResultSet = ExcuteSQLStatement.ExcuteSQLQuery(sqlStatementMaNguyenLieu);
             try {
                 while (maNguyenLieuResultSet.next()) {
-                    String sqlStatementUpdateCheBien = "insert into CHEBIEN values ('" + maMonAn + "', '" + maNguyenLieuResultSet.getString("MANL");
+                    String sqlStatementUpdateCheBien = "insert into CHEBIEN values ('" + maMonAn + "', '" + maNguyenLieuResultSet.getString("MANL")+"')";
                     ExcuteSQLStatement.ExcuteSQLUpdate(sqlStatementUpdateCheBien);
                 }
             } catch (SQLException ex) {
