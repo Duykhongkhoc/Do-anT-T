@@ -85,7 +85,6 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
         suaAnhMonAn_jLabel = new javax.swing.JLabel();
         suaPathAnhMonAn_jTextField = new javax.swing.JTextField();
         suaAnhMonAnTuFile_jButton = new javax.swing.JButton();
-        confirmXoaMonAn_jButton = new javax.swing.JButton();
         confirmSuaMonAn_jButton = new javax.swing.JButton();
         cancel_xoa_suaMonAn_jButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -131,6 +130,8 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
         themMonAn_jDialog.setModal(true);
 
         themMaMonaAn_jLabel.setText("Mã món ăn");
+
+        themMaMonAn_jTextField.setEnabled(false);
 
         themAnhMonAnTuFile_jButton.setText("Browse");
         themAnhMonAnTuFile_jButton.addActionListener(new java.awt.event.ActionListener() {
@@ -305,13 +306,6 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
             }
         });
 
-        confirmXoaMonAn_jButton.setText("Xóa");
-        confirmXoaMonAn_jButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                confirmXoaMonAn_jButtonActionPerformed(evt);
-            }
-        });
-
         confirmSuaMonAn_jButton.setText("Sửa");
         confirmSuaMonAn_jButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -367,9 +361,7 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
                         .addGroup(xoa_suaMonAn_jDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, xoa_suaMonAn_jDialogLayout.createSequentialGroup()
                                 .addComponent(cancel_xoa_suaMonAn_jButton)
-                                .addGap(18, 18, 18)
-                                .addComponent(confirmXoaMonAn_jButton)
-                                .addGap(18, 18, 18)
+                                .addGap(26, 26, 26)
                                 .addComponent(confirmSuaMonAn_jButton))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(suaAnhMonAn_jLabel, javax.swing.GroupLayout.Alignment.LEADING)
@@ -431,8 +423,7 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(xoa_suaMonAn_jDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(confirmSuaMonAn_jButton)
-                    .addComponent(cancel_xoa_suaMonAn_jButton)
-                    .addComponent(confirmXoaMonAn_jButton))
+                    .addComponent(cancel_xoa_suaMonAn_jButton))
                 .addGap(20, 20, 20))
         );
 
@@ -688,6 +679,10 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void setMaMonAnTang() {
+
+    }
+
     public void showMonAnTuDataBase() {
         try {
 
@@ -826,6 +821,16 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
     private void themMonAn_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themMonAn_jButtonActionPerformed
         // TODO add your handling code here:
         setThemMonAnJDialogVeTrangThaiBanDau();
+        String maMonAn = "MA1";
+        try {
+            String sql = "SELECT TO_NUMBER(SUBSTR(MAMON, 3))+1 LAST_MAMA FROM MONAN ORDER BY TO_NUMBER(SUBSTR( MAMON, 3 )) DESC";
+            ResultSet numberMaMonAn = ExcuteSQLStatement.ExcuteSQLQuery(sql);
+            if (numberMaMonAn.next()) maMonAn = "MA" + numberMaMonAn.getInt("LAST_MAMA");
+            System.out.println(numberMaMonAn.getInt("LAST_MAMA"));
+            themMaMonAn_jTextField.setText(maMonAn);
+        } catch (SQLException | HeadlessException ex) {
+            System.out.println("the error is " + ex);
+        }
         themMonAn_jDialog.pack();
         themMonAn_jDialog.setLocationRelativeTo(null);
         themMonAn_jDialog.setVisible(true);
@@ -934,12 +939,6 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
         trangThaiChonXoaOrSua = 0;
         xoa_suaMonAn_jDialog.setVisible(false);
     }//GEN-LAST:event_cancel_xoa_suaMonAn_jButtonActionPerformed
-
-    private void confirmXoaMonAn_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmXoaMonAn_jButtonActionPerformed
-        // TODO add your handling code here:
-        trangThaiChonXoaOrSua = 1;
-        xoa_suaMonAn_jDialog.setVisible(false);
-    }//GEN-LAST:event_confirmXoaMonAn_jButtonActionPerformed
 
     private void suaAnhMonAnTuFile_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_suaAnhMonAnTuFile_jButtonActionPerformed
         // TODO add your handling code here:
@@ -1054,7 +1053,6 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
     private javax.swing.JButton confirmThemMonAn_jButton;
     private javax.swing.JOptionPane confirmThemMonAn_jOptionPane;
     private javax.swing.JButton confirmThemNguyenLieu_jButton;
-    private javax.swing.JButton confirmXoaMonAn_jButton;
     private javax.swing.JButton confirmXoaNguyenLieu_jButton;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

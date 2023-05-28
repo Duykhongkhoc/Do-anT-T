@@ -116,6 +116,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="themMaMonAn_jTextField">
+          <Properties>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="themAnhMonAnTuFile_jButton">
           <Properties>
@@ -274,9 +277,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
                                   <Component id="cancel_xoa_suaMonAn_jButton" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="confirmXoaMonAn_jButton" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                                   <Component id="confirmSuaMonAn_jButton" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Component id="jScrollPane2" min="-2" pref="258" max="-2" attributes="0"/>
@@ -356,7 +357,6 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="confirmSuaMonAn_jButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="cancel_xoa_suaMonAn_jButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="confirmXoaMonAn_jButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
               </Group>
@@ -426,14 +426,6 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="suaAnhMonAnTuFile_jButtonActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="confirmXoaMonAn_jButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="confirmXoaMonAn_jButtonActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="confirmSuaMonAn_jButton">
