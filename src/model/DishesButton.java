@@ -63,7 +63,6 @@ public final class DishesButton extends JButton {
                 suaShowNguyenLieu_jTextArea.setText(suaShowNguyenLieu_jTextArea.getText() + "\n" + str);
             }
         }
-        System.out.println(getNguyenLieu());
         //Hien dialog sua de sua
         xoa_suaMonAn_jDialog.pack();
         xoa_suaMonAn_jDialog.setLocationRelativeTo(null);
@@ -71,15 +70,18 @@ public final class DishesButton extends JButton {
         //Xu ly
 
         switch (trangThaiChonXoaOrSua) {
-            case 2 -> {
+            case 1 -> {
                 suaThongTin();
                 trangThaiChonXoaOrSua = 0;
+                break;
             }
-            case 1 -> {
-                trangThaiChonXoaOrSua = 0;
-            }
+//            case 1 -> {
+//                trangThaiChonXoaOrSua = 0;
+//                break;
+//            }
             default -> {
                 trangThaiChonXoaOrSua = 0;
+                break;
             }
         }
         //suaShowNguyenLieu phai o cuoi de thuc hien dung
@@ -138,6 +140,9 @@ public final class DishesButton extends JButton {
             setDonGia(Integer.parseInt(suaDonGia_jTextField.getText()));
         }
         //Thay doi nguyen lieu
+        
+        System.out.println(getNguyenLieu());
+        System.out.println(nguyenLieuSua);
         if (!getNguyenLieu().equals(nguyenLieuSua)) {
             nguyenLieu.clear();
             for (String nguyenlieutemp : nguyenLieuSua) {
@@ -156,6 +161,7 @@ public final class DishesButton extends JButton {
                 }
             }
         }
+        nguyenLieuSua.clear();
     }
 
     public String getMaMonAn() {

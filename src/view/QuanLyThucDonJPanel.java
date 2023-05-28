@@ -16,7 +16,6 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -29,11 +28,11 @@ import model.WrapLayout;
  */
 public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
 
-    private final ArrayList<DishesButton> listMonAn = new ArrayList<>();
-    public static int trangThaiChonXoaOrSua = 0; // 0:Huy; 1:Xoa; 2:Sua 
+//    private final ArrayList<DishesButton> listMonAn = new ArrayList<>();
+    public static int trangThaiChonXoaOrSua = 0; // 0:Huy;  1:Sua 
     private final ArrayList<String> nguyenLieuDaChon = new ArrayList<>();
     public static int themOrXoaNguyenLieu = 0; //0: Khong co j; 1:Xoa; 2:Them
-    public static ArrayList<String> nguyenLieuSua;
+    public static ArrayList<String> nguyenLieuSua = new ArrayList<>();
     public static ArrayList<JPanel> loaiMonAnJPanels = new ArrayList<>();
 
     /**
@@ -129,6 +128,7 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
 
         themMonAn_jDialog.setTitle("Thêm món ăn");
         themMonAn_jDialog.setModal(true);
+        themMonAn_jDialog.setResizable(false);
 
         themMaMonaAn_jLabel.setText("Mã món ăn");
 
@@ -269,10 +269,10 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(themMonAn_jDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(themMonAn_jDialogLayout.createSequentialGroup()
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(confirmThemNguyenLieu_jButton))
-                    .addComponent(jScrollPane8))
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE))
                 .addGap(17, 17, 17)
                 .addGroup(themMonAn_jDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancel_themMonAn_jButton)
@@ -423,8 +423,8 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(xoa_suaMonAn_jDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(xoa_suaMonAn_jDialogLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(xoa_suaMonAn_jDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(confirmSuaNguyenLieu_jButton)
                             .addComponent(confirmXoaNguyenLieu_jButton)))
@@ -440,6 +440,7 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
         xoa_suaMonAn_jOptionPane.setOptionType(0);
 
         themLoaiMonAn_jDialog.setTitle("Thêm loại món ăn");
+        themLoaiMonAn_jDialog.setResizable(false);
 
         themTenLoaiMonAn_jLabel.setText("Tên loại món ăn");
 
@@ -505,6 +506,8 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
                     .addComponent(cancelThemLoaiMonAn_jButton))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
+
+        suaLoaiMonAn_jDialog.setResizable(false);
 
         suaChonLoaiMonAn_jLabel.setText("Chọn loại món ăn");
 
@@ -692,7 +695,7 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
         try {
 
             //Xet loai mon an va tao panel
-            String sqlStatementTenLoaiMonAn = "select TENLMA from LOAIMONAN";
+            String sqlStatementTenLoaiMonAn = "select TENLMA from LOAIMONAN ORDER BY MALMA ASC";
             ResultSet tenLoaiMonAnResultSet = ExcuteSQLStatement.ExcuteSQLQuery(sqlStatementTenLoaiMonAn);
             String tenLoaiMonAn;
             while (tenLoaiMonAnResultSet.next()) {
@@ -737,7 +740,7 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
                     String tenloaiMonAn = tenMonAnResultSet.getString("TENLMA");
                     DishesButton newDishesButton = new DishesButton(link_image, tenMon, tenloaiMonAn, maMonAn, donGia, nguyenLieuDaChon);
                     nguyenLieuDaChon.clear();
-                    listMonAn.add(newDishesButton);
+//                    listMonAn.add(newDishesButton);
                     for (JPanel loaiMonAnJPanel : loaiMonAnJPanels) {
                         if (newDishesButton.getTenLoaiMonAn().equals(loaiMonAnJPanel.getName())) {
                             loaiMonAnJPanel.add(newDishesButton);
@@ -752,7 +755,7 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
 
     public String[] chonThongTinLoaiMonAn(ArrayList<String> StrTenLMA) {
         try {
-            String sql = "SELECT TENLMA FROM LOAIMONAN";
+            String sql = "SELECT TENLMA FROM LOAIMONAN ORDER BY MALMA ASC";
             ResultSet res = ExcuteSQLStatement.ExcuteSQLQuery(sql);
             boolean flag_Trung = false;
             while (res.next()) {
@@ -781,7 +784,7 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
 
     public String[] chonTenNguyenLieu(ArrayList<String> StrTenNL) {
         try {
-            String sql = "SELECT TENNL FROM KHONGUYENLIEU";
+            String sql = "SELECT TENNL FROM KHONGUYENLIEU ORDER BY MANL ASC";
             ResultSet res = ExcuteSQLStatement.ExcuteSQLQuery(sql);
             boolean flag_Trung = false;
             while (res.next()) {
@@ -833,9 +836,10 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
             if (numberMaMonAn.next()) {
                 maMonAn = "MA" + numberMaMonAn.getInt("LAST_MAMA");
             }
-            themMaMonAn_jTextField.setText(maMonAn);
+
         } catch (SQLException | HeadlessException ex) {
         }
+        themMaMonAn_jTextField.setText(maMonAn);
         themMonAn_jDialog.pack();
         themMonAn_jDialog.setLocationRelativeTo(null);
         themMonAn_jDialog.setVisible(true);
@@ -917,6 +921,7 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
             confirmThemMonAn_jOptionPane.showOptionDialog(quanLyThucDon_jPanel, "Thêm món ăn không thành công vì chưa có mã món ăn!", "Error", -1, 0, null, null, null);
         }
         setThemMonAnJDialogVeTrangThaiBanDau();
+        reloadGUIMonAn();
     }//GEN-LAST:event_confirmThemMonAn_jButtonActionPerformed
 
     private void themTenMonAn_jTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themTenMonAn_jTextFieldActionPerformed
@@ -935,7 +940,7 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
         int x = xoa_suaMonAn_jOptionPane.showOptionDialog(quanLyThucDon_jPanel, "Bạn có chắc muốn sửa món ăn?", "Cảnh báo xác nhận sửa món ăn", 0, 2, null, null, null);
         if (x == JOptionPane.YES_OPTION) {
-            trangThaiChonXoaOrSua = 2;
+            trangThaiChonXoaOrSua = 1;
             xoa_suaMonAn_jDialog.setVisible(false);
         }
     }//GEN-LAST:event_confirmSuaMonAn_jButtonActionPerformed
@@ -959,6 +964,7 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
         themLoaiMonAn_jDialog.pack();
         themLoaiMonAn_jDialog.setLocationRelativeTo(null);
         themLoaiMonAn_jDialog.setVisible(true);
+
     }//GEN-LAST:event_themLoaiMonAn_jButtonActionPerformed
 
     private void confirmThemNguyenLieu_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmThemNguyenLieu_jButtonActionPerformed
@@ -977,14 +983,20 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
 
     private void confirmSuaNguyenLieu_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmSuaNguyenLieu_jButtonActionPerformed
         String[] temp = suaShowNguyenLieu_jTextArea.getText().split("[\\n]");
+
         nguyenLieuSua = new ArrayList<>(Arrays.asList(temp));
         for (String nguyenlieu : nguyenLieuSua) {
             if (!suaNguyenLieu_jList.getSelectedValue().equals(nguyenlieu)) {
+                //Hien thi cai moi chon
+                if (suaShowNguyenLieu_jTextArea.getText().equals("")) {
+                    suaShowNguyenLieu_jTextArea.setText(suaNguyenLieu_jList.getSelectedValue());
+                } else {
+                    suaShowNguyenLieu_jTextArea.setText(suaShowNguyenLieu_jTextArea.getText() + "\n" + suaNguyenLieu_jList.getSelectedValue());
+                }
                 nguyenLieuSua.add(suaNguyenLieu_jList.getSelectedValue());
                 break;
             }
         }
-        trangThaiChonXoaOrSua = 2;
     }//GEN-LAST:event_confirmSuaNguyenLieu_jButtonActionPerformed
 
     private void suaLoaiMonAn_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_suaLoaiMonAn_jButtonActionPerformed
@@ -1006,8 +1018,26 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
         showMonAn_jTabbedPane.addTab(themTenLoaiMonAn_jTextField.getText(), monAn_jScrollPane);
         confirmThemMonAn_jOptionPane.showMessageDialog(quanLyThucDon_jPanel, "Thêm loại món ăn thành công!");
         loaiMonAnJPanels.add(monAn_jPanel);
-        setThemLoaiMonAnJDialogVeTrangThaiBanDau();
         themLoaiMonAn_jDialog.setVisible(false);
+        String maLoaiMonAn = "LMA1";
+        try {
+            String sql = "SELECT TO_NUMBER(SUBSTR(MALMA, 4))+1 LAST_MALMA FROM MONAN ORDER BY TO_NUMBER(SUBSTR(MALMA, 4)) DESC";
+            ResultSet numberMaLoaiMonAn = ExcuteSQLStatement.ExcuteSQLQuery(sql);
+            if (numberMaLoaiMonAn.next()) {
+                maLoaiMonAn = "LMA" + numberMaLoaiMonAn.getInt("LAST_MALMA");
+            }
+        } catch (SQLException | HeadlessException ex) {
+        }
+        ExcuteSQLStatement.ExcuteSQLUpdate("insert into LOAIMONAN values ('" + maLoaiMonAn + "', '" + themTenLoaiMonAn_jTextField.getText() + "', '" + themMoTaLoaiMonAn_jTextArea.getText() + "')");
+        //Cap nhat lai cac loai mon an trong combobox goc
+        themLoaiMonAn_jComboBox.removeAllItems();
+        ArrayList<String> StrTenLMA = new ArrayList<>();
+        String[] arrTenLMA = chonThongTinLoaiMonAn(StrTenLMA);
+        for (String arrTenLMA1 : arrTenLMA) {
+            themLoaiMonAn_jComboBox.addItem(arrTenLMA1);
+        }
+        // cmt cho no tach ra thoi
+        setThemLoaiMonAnJDialogVeTrangThaiBanDau();
     }//GEN-LAST:event_confirmThemLoaiMonAn_jButtonActionPerformed
 
     private void cancelThemLoaiMonAn_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelThemLoaiMonAn_jButtonActionPerformed
@@ -1018,7 +1048,29 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
 
     private void comfirmSuaLoaiMonAn_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comfirmSuaLoaiMonAn_jButtonActionPerformed
         // TODO add your handling code here:
+        String tenLoaiMonAnMoi = tenMoiLoaiMonAn_jTextField.getText();
+        String moTaLoaiMonAnMoi = moTaMoiLoaiMonAn_jTextArea.getText();
+        ResultSet maLoaiMonAnResultSet = ExcuteSQLStatement.ExcuteSQLQuery("select MALMA from LOAIMONAN where TENLMA ='" + suaChonLoaiMonAn_jComboBox.getSelectedItem().toString() + "'");
+        try {
+            while (maLoaiMonAnResultSet.next()) {
+                ExcuteSQLStatement.ExcuteSQLUpdate("update LOAIMONAN set TENLMA = '" + tenLoaiMonAnMoi + "' where MALMA = '" + maLoaiMonAnResultSet.getString("MALMA") + "'");
+                ExcuteSQLStatement.ExcuteSQLUpdate("update LOAIMONAN set MOTA = '" + moTaLoaiMonAnMoi + "' where MALMA = '" + maLoaiMonAnResultSet.getString("MALMA") + "'");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLyThucDonJPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         suaLoaiMonAn_jDialog.setVisible(false);
+
+        //Cap nhat lai cac loai mon an trong combobox goc
+        themLoaiMonAn_jComboBox.removeAllItems();
+        ArrayList<String> StrTenLMA = new ArrayList<>();
+        String[] arrTenLMA = chonThongTinLoaiMonAn(StrTenLMA);
+        for (String arrTenLMA1 : arrTenLMA) {
+            themLoaiMonAn_jComboBox.addItem(arrTenLMA1);
+        }
+        // Reload GUI - Ko biet de lam gi nhma xoa thi so no loi :))
+        setSuaLoaiMonAnDialogVeTrangThaiBanDau();
         reloadGUIMonAn();
     }//GEN-LAST:event_comfirmSuaLoaiMonAn_jButtonActionPerformed
     private void reloadGUIMonAn() {
@@ -1051,7 +1103,15 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
 
     private void confirmXoaNguyenLieu_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmXoaNguyenLieu_jButtonActionPerformed
         // TODO add your handling code here:
-
+        String[] temp = suaShowNguyenLieu_jTextArea.getText().split("[\\n]");
+        nguyenLieuSua = new ArrayList<>(Arrays.asList(temp));
+        if (suaShowNguyenLieu_jTextArea.getText().contains(suaNguyenLieu_jList.getSelectedValue() + "\\n")) {
+            suaShowNguyenLieu_jTextArea.setText(suaShowNguyenLieu_jTextArea.getText().replace(suaNguyenLieu_jList.getSelectedValue() + "\\n", ""));
+        } else if (suaShowNguyenLieu_jTextArea.getText().contains(suaNguyenLieu_jList.getSelectedValue())) {
+            suaShowNguyenLieu_jTextArea.setText(suaShowNguyenLieu_jTextArea.getText().replace(suaNguyenLieu_jList.getSelectedValue(), ""));
+        }
+        nguyenLieuSua.remove(suaNguyenLieu_jList.getSelectedValue());
+        
     }//GEN-LAST:event_confirmXoaNguyenLieu_jButtonActionPerformed
     private void setSuaLoaiMonAnDialogVeTrangThaiBanDau() {
         suaLoaiMonAn_jComboBox.setSelectedIndex(0);

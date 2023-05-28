@@ -8,12 +8,12 @@ package view;
  *
  * @author jiang
  */
-public class quanLyThongKeJPnanel extends javax.swing.JPanel {
+public class QuanLyThongKeJPnanel extends javax.swing.JPanel {
 
     /**
      * Creates new form quanLyThongKeJPnanel
      */
-    public quanLyThongKeJPnanel() {
+    public QuanLyThongKeJPnanel() {
         initComponents();
     }
 

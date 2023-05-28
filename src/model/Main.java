@@ -12,13 +12,18 @@ import view.NewJFrame;
  * @author jiang
  */
 public class Main {
+
+    public static void showGUIThucDon() {
+        NewJFrame newJFrame = new NewJFrame();
+        newJFrame.setVisible(true);
+    }
+    
     public static void main(String[] args) {
         try {
             FlatArcIJTheme.setup();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        NewJFrame newJFrame = new NewJFrame();
-        newJFrame.setVisible(true);
+        showGUIThucDon();
     }
 }

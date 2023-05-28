@@ -4,14 +4,19 @@ import java.awt.BorderLayout;
 
 public class NewJFrame extends javax.swing.JFrame {
     /* Create variables*/
-    private QuanLyThucDonJPanel quanLyThucDon = new QuanLyThucDonJPanel();
+    
     /*Constructor*/
     public NewJFrame() {
         initComponents();
-        this.add(quanLyThucDon, BorderLayout.CENTER);
+        showGUIQuanLyThucDon();
         this.setLocationRelativeTo(null);
     }
 
+    private void showGUIQuanLyThucDon()
+    {
+        QuanLyThucDonJPanel quanLyThucDon = new QuanLyThucDonJPanel();
+        this.add(quanLyThucDon, BorderLayout.CENTER);
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
