@@ -597,6 +597,7 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
 
         quanLyThucDon_jPanel.setLayout(new WrapLayout(FlowLayout.LEFT));
         quanLyThucDon_jPanel.setSize(new Dimension(630, 1));
+        quanLyThucDon_jPanel.setBackground(new java.awt.Color(220, 249, 247));
         quanLyThucDon_jPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(250, 300, 250, 300));
         quanLyThucDon_jPanel.setPreferredSize(new java.awt.Dimension(900, 600));
         quanLyThucDon_jPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -615,7 +616,7 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
                 themMonAn_jButtonActionPerformed(evt);
             }
         });
-        quanLyThucDon_jPanel.add(themMonAn_jButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 20, 150, 30));
+        quanLyThucDon_jPanel.add(themMonAn_jButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 20, 150, 30));
 
         searchMonAn_jPanel.setLayout(new javax.swing.BoxLayout(searchMonAn_jPanel, javax.swing.BoxLayout.X_AXIS));
 
@@ -982,9 +983,8 @@ public final class QuanLyThucDonJPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_confirmThemNguyenLieu_jButtonActionPerformed
 
     private void confirmSuaNguyenLieu_jButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmSuaNguyenLieu_jButtonActionPerformed
-        String[] temp = suaShowNguyenLieu_jTextArea.getText().split("[\\n]");
 
-        nguyenLieuSua = new ArrayList<>(Arrays.asList(temp));
+        System.out.println("nguyen lieu sua 1: "+nguyenLieuSua);
         for (String nguyenlieu : nguyenLieuSua) {
             if (!suaNguyenLieu_jList.getSelectedValue().equals(nguyenlieu)) {
                 //Hien thi cai moi chon

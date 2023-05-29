@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -63,6 +64,9 @@ public final class DishesButton extends JButton {
                 suaShowNguyenLieu_jTextArea.setText(suaShowNguyenLieu_jTextArea.getText() + "\n" + str);
             }
         }
+        String[] temp = suaShowNguyenLieu_jTextArea.getText().split("[\\n]");
+
+        nguyenLieuSua = new ArrayList<>(Arrays.asList(temp));
         //Hien dialog sua de sua
         xoa_suaMonAn_jDialog.pack();
         xoa_suaMonAn_jDialog.setLocationRelativeTo(null);
@@ -75,10 +79,6 @@ public final class DishesButton extends JButton {
                 trangThaiChonXoaOrSua = 0;
                 break;
             }
-//            case 1 -> {
-//                trangThaiChonXoaOrSua = 0;
-//                break;
-//            }
             default -> {
                 trangThaiChonXoaOrSua = 0;
                 break;
@@ -141,8 +141,8 @@ public final class DishesButton extends JButton {
         }
         //Thay doi nguyen lieu
         
-        System.out.println(getNguyenLieu());
-        System.out.println(nguyenLieuSua);
+        System.out.println("getNguyen lieu:" + getNguyenLieu());
+        System.out.println("nguyen lieu sua 2: "+nguyenLieuSua);
         if (!getNguyenLieu().equals(nguyenLieuSua)) {
             nguyenLieu.clear();
             for (String nguyenlieutemp : nguyenLieuSua) {

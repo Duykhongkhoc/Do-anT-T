@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import javax.swing.JPanel;
 
 public class NewJFrame extends javax.swing.JFrame {
     /* Create variables*/
@@ -15,6 +16,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private void showGUIQuanLyThucDon()
     {
         QuanLyThucDonJPanel quanLyThucDon = new QuanLyThucDonJPanel();
+        
         this.add(quanLyThucDon, BorderLayout.CENTER);
     }
     @SuppressWarnings("unchecked")
@@ -28,6 +30,9 @@ public class NewJFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(900, 600));
 
+        kGradientPanel1.setkEndColor(new java.awt.Color(255, 183, 182));
+        kGradientPanel1.setkGradientFocus(20);
+        kGradientPanel1.setkStartColor(new java.awt.Color(167, 223, 255));
         kGradientPanel1.setLayout(new java.awt.GridLayout(6, 1));
 
         jButton1.setText("jhbhjkdsafjk");
